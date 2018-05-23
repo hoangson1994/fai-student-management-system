@@ -32,7 +32,7 @@ public class RESTResponseSuccess extends RESTResponse {
 
 	void buildResponseDocument() {
 		if (this.data != null && this.data.size() > 0) {
-			if (this.data.size() == 1) {
+			if (this.data.size() == 1 && meta == null) {
 				this.document = new RESTDocumentSingle.Builder().setData(this.data.get(0)).build();
 			} else {
 				this.document = new RESTDocumentMulti.Builder().setData(this.data).setMeta(this.meta).build();
