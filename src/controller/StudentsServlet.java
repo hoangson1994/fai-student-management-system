@@ -10,6 +10,8 @@ import design_java_rest.RESTGeneralSuccess;
 import design_java_rest.entity.RESTDocumentSingle;
 import design_java_rest.entity.RESTError;
 import entity.Student;
+import model.mysql.FqlModel;
+import model.mysql.FqlService;
 import utility.Validator;
 
 import javax.servlet.ServletException;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class StudentsServlet extends HttpServlet {
@@ -24,28 +27,36 @@ public class StudentsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+//        try {
+//            RESTDocumentSingle documentSingle = RESTDocumentSingle.getInstanceFromRequest(req);
+//            Student student = documentSingle.getData().getInstance(Student.class);
+//            student.setId(System.currentTimeMillis());
+//            student.setCreatedAt(System.currentTimeMillis());
+//            student.setUpdatedAt(System.currentTimeMillis());
+//            student.setStatus(1);
+//            List<RESTError> listErrors = Validator.getInstance().validateStudent(student);
+//            if (listErrors.size() > 0) {
+//                RESTFactory.make(RESTGeneralError.BAD_REQUEST).putErrors(listErrors).doResponse(resp);
+//                return;
+//            }
+//            if (Validator.checkRollnumerExist(student.getRollNumber())) {
+//                RESTFactory.make(RESTGeneralError.CONFLICT).putErrors(RESTGeneralError.CONFLICT.code(), "RollNumber Conflict", "RollNUmber existed").doResponse(resp);
+//                return;
+//            }
+//            ofy().save().entity(student).now();
+//            RESTFactory.make(RESTGeneralSuccess.CREATED).putData(student).doResponse(resp);
+//            return;
+//        } catch (JsonSyntaxException e) {
+//            RESTFactory.make(RESTGeneralError.BAD_REQUEST).putErrors(RESTGeneralError.BAD_REQUEST.code(), "Format Data invalid", e.getMessage()).doResponse(resp);
+//            return;
+//        }
+
+        FqlService.connect("jdbc:mysql://35.224.127.210/fpt_university?user=focus2&password=hoang123&useSSL=false");
+        FqlModel<Student> studentM = FqlService.getModel("student");
         try {
-            RESTDocumentSingle documentSingle = RESTDocumentSingle.getInstanceFromRequest(req);
-            Student student = documentSingle.getData().getInstance(Student.class);
-            student.setId(System.currentTimeMillis());
-            student.setCreatedAt(System.currentTimeMillis());
-            student.setUpdatedAt(System.currentTimeMillis());
-            student.setStatus(1);
-            List<RESTError> listErrors = Validator.getInstance().validateStudent(student);
-            if (listErrors.size() > 0) {
-                RESTFactory.make(RESTGeneralError.BAD_REQUEST).putErrors(listErrors).doResponse(resp);
-                return;
-            }
-            if (Validator.checkRollnumerExist(student.getRollNumber())) {
-                RESTFactory.make(RESTGeneralError.CONFLICT).putErrors(RESTGeneralError.CONFLICT.code(), "RollNumber Conflict", "RollNUmber existed").doResponse(resp);
-                return;
-            }
-            ofy().save().entity(student).now();
-            RESTFactory.make(RESTGeneralSuccess.CREATED).putData(student).doResponse(resp);
-            return;
-        } catch (JsonSyntaxException e) {
-            RESTFactory.make(RESTGeneralError.BAD_REQUEST).putErrors(RESTGeneralError.BAD_REQUEST.code(), "Format Data invalid", e.getMessage()).doResponse(resp);
-            return;
+            studentM.insertOne(new Student(System.currentTimeMillis(), "A002", "Hoang", 2, "a", "b", "c", System.currentTimeMillis(), "a", System.currentTimeMillis(), System.currentTimeMillis(), 1));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

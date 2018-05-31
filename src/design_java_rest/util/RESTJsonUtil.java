@@ -1,6 +1,7 @@
 package design_java_rest.util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.nio.charset.Charset;
 public class RESTJsonUtil {
 
     public static final Gson GSON = new Gson();
+    public static final Gson GSONDate = new GsonBuilder().setDateFormat("yyyy/MM/dd").create();
 
     /**
      * Parse input stream to string, UTF-8.

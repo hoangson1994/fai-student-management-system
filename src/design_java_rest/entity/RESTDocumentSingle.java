@@ -22,7 +22,11 @@ public class RESTDocumentSingle implements RESTDocument {
      */
 
     public static RESTDocumentSingle getInstanceFromRequest(HttpServletRequest req)throws IOException {
-        return RESTJsonUtil.GSON.fromJson(RESTJsonUtil.parseStringInputStream(req.getInputStream()), RESTDocumentSingle.class);
+        try {
+            return RESTJsonUtil.GSON.fromJson(RESTJsonUtil.parseStringInputStream(req.getInputStream()), RESTDocumentSingle.class);
+        } catch (IOException e) {
+            return RESTJsonUtil.GSONDate.fromJson(RESTJsonUtil.parseStringInputStream(req.getInputStream()), RESTDocumentSingle.class);
+        }
     }
 
     public RESTResource getData() {

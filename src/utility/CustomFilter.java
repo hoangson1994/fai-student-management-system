@@ -5,6 +5,7 @@ import design_java_rest.RESTHandle;
 import design_java_rest.entity.RESTConstantHttp;
 import design_java_rest.util.RESTStringUtil;
 import entity.Student;
+import model.mysql.FqlService;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +30,7 @@ public class CustomFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        ObjectifyService.register(Student.class);
+        FqlService.connect("jdbc:mysql://35.224.127.210/fpt_university?user=focus2&password=hoang123&useSSL=false");
         RESTHandle.doOption((HttpServletResponse) response, acceptMethods);
         chain.doFilter(request, response);
     }

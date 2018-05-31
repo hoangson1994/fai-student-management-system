@@ -30,6 +30,15 @@
         <url-pattern>/api/students/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>FuUser</servlet-name>
+        <servlet-class>controller.FuUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FuUser</servlet-name>
+        <url-pattern>/api/fu_user/*</url-pattern>
+    </servlet-mapping>
+
 
     <servlet>
         <servlet-name>Upload</servlet-name>
