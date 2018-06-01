@@ -7,13 +7,11 @@ public class FqlService {
         FqlService.url = url;
     }
 
-    public static <T> FqlModel getModel(String table) {
-        FqlModel<T> m = new FqlModel<>(table, FqlService.url);
-        return m;
+    public static FqlModel getModel(String table) {
+        return new FqlModel(table, FqlService.url);
     }
 
-    public static <T> FqlModel getModel(String table, String url) {
-        FqlModel<T> m = new FqlModel<>(table, url);
-        return m;
+    public static FqlModel getModel(String table, String url) {
+        return new FqlModel(table, url);
     }
 }

@@ -8,7 +8,7 @@ public class FuUser {
     private String user_surname;
     private String user_middlename;
     private String user_givenname;
-    private int sex;
+    private Integer sex;
     private String user_code;
     private String user_DOB;
     private String user_email;

@@ -186,6 +186,7 @@ public class FqlStringBuilder {
 
     private StringBuilder sb;
     private boolean hasItem = false;
+    private boolean hasQuery = false;
 
     /**
      * Constructor init the string builder
@@ -308,10 +309,10 @@ public class FqlStringBuilder {
     }
 
     public FqlStringBuilder where(String a, String operation, Object b) {
-
+        if (hasQuery) return whereAnd(a, operation, b);
         sb.append(" WHERE ");
         whereCondition(a, operation, b);
-
+        hasQuery = true;
         return this;
     }
 
@@ -324,12 +325,22 @@ public class FqlStringBuilder {
                 i++;
             }
         }
+        return this;
+    }
+
+    public <T> FqlStringBuilder where(T item) throws IllegalAccessException {
+        Field[] fs = item.getClass().getDeclaredFields();
+        for (Field f: fs) {
+            f.setAccessible(true);
+            if (f.get(item) == null) continue;
+            where(f.getName(), f.get(item));
+        }
 
         return this;
     }
 
     public FqlStringBuilder select(String table) {
-        sb.append("SELECT * FROM")
+        sb.append("SELECT * FROM ")
                 .append(table);
         return this;
     }
